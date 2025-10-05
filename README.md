@@ -4,6 +4,7 @@
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://iylmwysst.github.io/typeandlearn/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/iylmwysst)
 
 <p align="center">
   <img src="assets/images/main_menu.png" alt="Type & Learn Main Menu">
