@@ -3727,13 +3727,20 @@ class Game {
     }
 
     gameLoop(currentTime = 0) {
-        // Calculate delta time (not used but available for frame-rate independence)
+        // Calculate delta time in milliseconds
         const deltaTime = currentTime - this.lastTime;
-        this.lastTime = currentTime;
 
-        // Update and draw
-        this.update();
-        this.draw();
+        // Target 60 FPS (16.67ms per frame) - prevents game from running too fast on high-refresh-rate displays
+        const targetFrameTime = 1000 / 60;
+
+        // Only update if enough time has passed (frame rate limiting)
+        if (deltaTime >= targetFrameTime) {
+            this.lastTime = currentTime;
+
+            // Update and draw
+            this.update();
+            this.draw();
+        }
 
         // Continue loop
         requestAnimationFrame((time) => this.gameLoop(time));
