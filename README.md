@@ -2,7 +2,7 @@
 
 > A browser-based typing game where players destroy asteroids by typing English words, featuring English-Thai vocabulary learning.
 
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://your-demo-url-here.com)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://iylmwysst.github.io/typeandlearn/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 <p align="center">
@@ -122,7 +122,7 @@ See individual license files for details.
 ## 🙏 Acknowledgments
 
 - Inspired by [ZType](https://zty.pe/)
-- Created by [iylmwysst](https://github.com/yourusername)
+- Created by [iylmwysst](https://github.com/iylmwysst)
 
 ## 🐛 Issues & Contributions
 
@@ -132,7 +132,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📧 Contact
 
-For asset usage permissions or other inquiries, please contact: your-email@example.com
+For asset usage permissions or other inquiries, please contact: iylmwysst
 
 ---
 
