@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type &amp; Learn: Word Sprint Typing Game</title>
+    <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="game-header">
+            <h1>Type &amp; Learn</h1>
+            <div class="stats">
+                <div class="stat">
+                    <span class="label">Score:</span>
+                    <span id="score" class="value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">Level:</span>
+                    <span id="difficulty" class="value difficulty-value">1</span>
+                </div>
+                <div class="stat">
+                    <span class="label">WPM:</span>
+                    <span id="status" class="value">0</span>
+                </div>
+                <div class="stat">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+                        <span class="toggle-track">
+                            <span class="toggle-thumb"></span>
+                        </span>
+                        <span class="toggle-label">Dark</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-wrapper">
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+            <!-- Quick Snap Overlay -->
+            <div class="quick-snap-overlay" id="quickSnapOverlay">
+                <div class="quick-snap-header">
+                    <span class="quick-snap-title">Quick Snap</span>
+                    <span class="quick-snap-hint">Hold Spacebar</span>
+                </div>
+                <div class="quick-snap-list" id="quickSnapList">
+                    <p class="qs-empty">No translations yet</p>
+                </div>
+            </div>
+
+            <div class="translation-panel collapsed" id="translationPanel">
+                <button class="collapse-btn" id="collapseBtn" title="Toggle vocabulary panel">◀</button>
+                <div class="vertical-label">Translation Window</div>
+                <h3>Vocabulary</h3>
+                <div id="translationList" class="translation-list">
+                    <p class="empty-state">Complete words to see translations</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>How to Play</h3>
+            <p>Type the words on enemies to destroy them before they reach your ship!</p>
+            <p>Enemies will track and move toward your ship - type fast to survive!</p>
+            <p><strong>Translations:</strong> Completed words appear in the Translation Window on the right, showing the Thai meaning. Collapse it anytime with the arrow button.</p>
+            <p><strong>Quick Snap:</strong> Hold SPACEBAR to see your last 5 translations.</p>
+            <p><strong>Gauge System:</strong> Fill the GAUGE by clearing words without using the power attack. Reaching 100% grants a power stack; max stacks auto-convert into a shield.</p>
+            <p><strong>Special Power:</strong> Press ENTER to fire at all enemies within range (costs 1 power stack)!</p>
+            <p>Difficulty increases gradually as you destroy more enemies.</p>
+        </div>
+
+        <div class="build-badge">Build 0.1</div>
+
+        <div class="credit-text">
+            Made by iylmwysst — Inspired by ZType<br>
+            <small style="opacity: 0.7; font-size: 0.85em;">Not affiliated with or endorsed by ZType or its developers</small>
+        </div>
+
+        <div class="floating-actions">
+            <button class="floating-btn" id="donateBtn">Donate</button>
+            <button class="floating-btn" id="soundtrackBtn">Sound</button>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/wordbank.js"></script>
+    <script src="js/vocabulary.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/ship.js"></script>
+    <script src="js/asteroid.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/game.js"></script>
+
+    <script>
+        // Vocabulary panel collapse/expand functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const panel = document.getElementById('translationPanel');
+            const btn = document.getElementById('collapseBtn');
+
+            btn.addEventListener('click', () => {
+                panel.classList.toggle('collapsed');
+            });
+
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const body = document.body;
+
+            const toggleLabel = themeToggle.querySelector('.toggle-label');
+            const toggleThumb = themeToggle.querySelector('.toggle-thumb');
+
+            function updateToggleState(isDark) {
+                themeToggle.setAttribute('aria-pressed', isDark);
+                if (toggleLabel) {
+                    toggleLabel.textContent = isDark ? 'White' : 'Dark';
+                }
+                themeToggle.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+                themeToggle.classList.toggle('is-dark', isDark);
+                if (toggleThumb) {
+                    toggleThumb.textContent = '';
+                }
+            }
+
+            // Load saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            const startDark = savedTheme === 'dark';
+            if (startDark) {
+                body.classList.add('dark-mode');
+            }
+            updateToggleState(startDark);
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                const isDark = body.classList.contains('dark-mode');
+                updateToggleState(isDark);
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+
+            // Popup buttons
+            const donateBtn = document.getElementById('donateBtn');
+            const soundtrackBtn = document.getElementById('soundtrackBtn');
+            const donatePopup = document.getElementById('donatePopup');
+            const soundtrackPopup = document.getElementById('soundtrackPopup');
+            const popupOverlays = document.querySelectorAll('.popup-overlay');
+
+            const openPopup = (popup) => {
+                if (!popup) return;
+                popup.classList.add('visible');
+            };
+
+            const closePopup = (popup) => {
+                if (!popup) return;
+                popup.classList.remove('visible');
+            };
+
+            if (donateBtn && donatePopup) {
+                donateBtn.addEventListener('click', () => openPopup(donatePopup));
+            }
+
+            if (soundtrackBtn && soundtrackPopup) {
+                soundtrackBtn.addEventListener('click', () => openPopup(soundtrackPopup));
+            }
+
+            popupOverlays.forEach((overlay) => {
+                overlay.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('popup-overlay') || event.target.classList.contains('popup-close')) {
+                        closePopup(overlay);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Hidden file input for CSV import -->
+    <input type="file" id="csvImportInput" accept=".csv" style="display: none;">
+
+    <script>
+        // Handle CSV import
+        document.addEventListener('DOMContentLoaded', () => {
+            const csvInput = document.getElementById('csvImportInput');
+            if (csvInput) {
+                csvInput.addEventListener('change', (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        // Call the import method on the game instance
+                        if (typeof game !== 'undefined' && game.importCustomVocabulary) {
+                            game.importCustomVocabulary(file);
+                        }
+                    }
+                    // Reset the input so the same file can be selected again
+                    event.target.value = '';
+                });
+            }
+        });
+    </script>
+
+    <div class="popup-overlay" id="donatePopup" role="dialog" aria-modal="true" aria-labelledby="donateHeading">
+        <div class="popup-window">
+            <button class="popup-close" aria-label="Close donate popup">×</button>
+            <h3 id="donateHeading">Support Type &amp; Learn</h3>
+            <div class="popup-content">
+                <p>Scan the QR code or visit the link below to support development.</p>
+                <img src="assets/images/paymentqr.png" alt="PromptPay donation QR code" />
+                <a href="https://paypal.me/iylmwysst" target="_blank" rel="noopener">paypal.me/iylmwysst</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="soundtrackPopup" role="dialog" aria-modal="true" aria-labelledby="soundtrackHeading">
+        <div class="popup-window">
+            <button class="popup-close" aria-label="Close sound popup">×</button>
+            <h3 id="soundtrackHeading">Sound Credits</h3>
+            <div class="popup-content credits">
+                <div class="credit-item">
+                    <h4>Score 1</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/freesound_crunchpixstudio-49769582/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394489" target="_blank" rel="noopener">Crunchpix Studio</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394489" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Score 2</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/freesound_crunchpixstudio-49769582/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394488" target="_blank" rel="noopener">Crunchpix Studio</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394488" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Score 3</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/freesound_crunchpixstudio-49769582/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394494" target="_blank" rel="noopener">Crunchpix Studio</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394494" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Bullet</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/freesound_crunchpixstudio-49769582/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=384945" target="_blank" rel="noopener">Crunchpix Studio</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=384945" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Level Up</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/freesound_crunchpixstudio-49769582/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=384964" target="_blank" rel="noopener">Crunchpix Studio</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=384964" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Button</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/existentialtaco-51014313/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394001" target="_blank" rel="noopener">Existential Taco</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=394001" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Gauge Full</h4>
+                    <p>Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=326133" target="_blank" rel="noopener">Universfield</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=326133" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
