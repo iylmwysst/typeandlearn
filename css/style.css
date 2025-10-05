@@ -332,14 +332,16 @@ body.dark-mode {
 }
 
 .credit-text {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 20px;
+    position: absolute;
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center;
     font: bold 12px 'Courier New', monospace;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     color: #000;
-    z-index: 2000;
+    z-index: 100;
+    white-space: nowrap;
 }
 
 .instructions {

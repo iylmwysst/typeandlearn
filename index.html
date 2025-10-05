@@ -38,6 +38,11 @@
         <div class="game-wrapper">
             <canvas id="gameCanvas" width="800" height="600"></canvas>
 
+            <!-- Made by credit text (left side, tilted) -->
+            <div class="credit-text">
+                Made by iylmwysst
+            </div>
+
             <!-- Quick Snap Overlay -->
             <div class="quick-snap-overlay" id="quickSnapOverlay">
                 <div class="quick-snap-header">
@@ -72,14 +77,9 @@
 
         <div class="build-badge">Build 0.1</div>
 
-        <div class="credit-text">
-            Made by iylmwysst — Inspired by ZType<br>
-            <small style="opacity: 0.7; font-size: 0.85em;">Not affiliated with or endorsed by ZType or its developers</small>
-        </div>
-
         <div class="floating-actions">
             <button class="floating-btn" id="donateBtn">Donate</button>
-            <button class="floating-btn" id="soundtrackBtn">Sound</button>
+            <button class="floating-btn" id="soundtrackBtn">Credits</button>
         </div>
     </div>
 
@@ -208,8 +208,8 @@
 
     <div class="popup-overlay" id="soundtrackPopup" role="dialog" aria-modal="true" aria-labelledby="soundtrackHeading">
         <div class="popup-window">
-            <button class="popup-close" aria-label="Close sound popup">×</button>
-            <h3 id="soundtrackHeading">Sound Credits</h3>
+            <button class="popup-close" aria-label="Close credits popup">×</button>
+            <h3 id="soundtrackHeading">Credits</h3>
             <div class="popup-content credits">
                 <div class="credit-item">
                     <h4>Score 1</h4>
@@ -238,6 +238,10 @@
                 <div class="credit-item">
                     <h4>Gauge Full</h4>
                     <p>Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=326133" target="_blank" rel="noopener">Universfield</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=326133" target="_blank" rel="noopener">Pixabay</a></p>
+                </div>
+                <div class="credit-item">
+                    <h4>Inspired by</h4>
+                    <p>ZType<br><small style="opacity: 0.7;">Not affiliated with or endorsed by ZType or its developers</small></p>
                 </div>
             </div>
         </div>
