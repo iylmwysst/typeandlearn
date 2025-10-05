@@ -8,10 +8,12 @@ body {
     font-family: 'Courier New', monospace;
     background: #f5f5f5;
     min-height: 100vh;
+    max-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #000;
+    overflow: hidden;
     /* Paper grid background */
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
@@ -33,6 +35,9 @@ body.dark-mode {
 .container {
     text-align: center;
     padding: 20px;
+    max-height: 100vh;
+    overflow: hidden;
+    width: 100%;
 }
 
 .game-header {
@@ -163,6 +168,10 @@ body.dark-mode {
     flex-shrink: 0;
     margin-left: auto;
     margin-right: auto;
+    max-width: 100%;
+    max-height: calc(100vh - 300px); /* Fit within viewport minus header/footer space */
+    height: auto;
+    width: auto;
 }
 
 .translation-panel {
@@ -343,6 +352,13 @@ body.dark-mode {
     margin-left: auto;
     margin-right: auto;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hide instructions if viewport is too small to prevent overflow */
+@media (max-height: 900px) {
+    .instructions {
+        display: none;
+    }
 }
 
 .instructions h3 {
