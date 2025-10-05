@@ -345,10 +345,10 @@ body.dark-mode {
 .instructions {
     margin-top: 20px;
     background: rgba(255, 255, 255, 0.8);
-    padding: 10px 15px;
+    padding: 15px;
     border-radius: 5px;
     border: 2px solid #333;
-    max-width: 1000px;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
@@ -363,15 +363,12 @@ body.dark-mode {
 
 .instructions h3 {
     color: #000;
-    margin-bottom: 8px;
-    font-size: 1.1em;
+    margin-bottom: 10px;
 }
 
 .instructions p {
-    margin: 3px 0;
+    margin: 5px 0;
     color: #333;
-    font-size: 0.9em;
-    line-height: 1.4;
 }
 
 @media (max-width: 1100px) {
