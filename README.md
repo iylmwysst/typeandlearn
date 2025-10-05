@@ -5,6 +5,8 @@
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://your-demo-url-here.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+![Main Menu](https://i.postimg.cc/nsfzh1ym/image.png)
+
 ## 🎮 About
 
 Type & Learn is an educational typing game inspired by ZType. Players defend their ship by typing English words to destroy incoming asteroids, while learning English-Thai vocabulary through gameplay.
