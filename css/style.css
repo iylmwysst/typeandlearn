@@ -41,15 +41,7 @@ body.dark-mode {
 }
 
 .game-header {
-    margin-bottom: 20px;
-}
-
-.game-header h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    letter-spacing: 3px;
-    color: #000;
+    margin-bottom: 10px;
 }
 
 .stats {
@@ -410,10 +402,6 @@ body.dark-mode {
         height: auto;
     }
 
-    .game-header h1 {
-        font-size: 2em;
-    }
-
     .stats {
         flex-direction: column;
         gap: 10px;
@@ -543,11 +531,6 @@ body.dark-mode {
 }
 
 /* Dark Mode Overrides */
-body.dark-mode .game-header h1 {
-    color: #e0e0e0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
 body.dark-mode .stat {
     background: rgba(50, 50, 50, 0.8);
     border-color: #666;
