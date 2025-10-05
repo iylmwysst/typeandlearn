@@ -5,7 +5,9 @@
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://your-demo-url-here.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![Main Menu](https://i.postimg.cc/nsfzh1ym/image.png)
+<p align="center">
+  <img src="https://i.postimg.cc/nsfzh1ym/image.png" alt="Type & Learn Main Menu" width="100%">
+</p>
 
 ## 🎮 About
 
